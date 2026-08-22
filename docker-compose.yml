@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  ai-code-sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_code_sandbox_app
+    ports:
+      - "8000:8000"
+    environment:
+      - AI_API_KEY=${AI_API_KEY}
+      - AI_MODEL=gemini-2.5-flash
+      - SANDBOX_TIMEOUT=10
+      - MAX_DEBUG_ATTEMPTS=3
+      - DATABASE_URL=sqlite:///./sandbox.db
+    volumes:
+      - ./sandbox:/app/sandbox
+      - ./sandbox.db:/app/sandbox.db
+    restart: unless-stopped
